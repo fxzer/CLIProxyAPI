@@ -8,6 +8,18 @@ It now also supports OpenAI Codex (GPT models) and Claude Code via OAuth.
 
 So you can use local or multi-account CLI access with OpenAI(include Responses)/Gemini/Claude-compatible clients and SDKs.
 
+## fxzer fork: Management API extensions
+
+Maintained in **[fxzer/CLIProxyAPI](https://github.com/fxzer/CLIProxyAPI)** (public mirror / backup of this tree). Summary of **backend-only** deltas useful for the paired admin UI:
+
+| Area | Change |
+|------|--------|
+| **Management API** | `GET /v0/management/usage` — aggregated usage for a time window (`start`, `end` query params, ISO 8601). |
+| | `GET /v0/management/auth-refresh-queue` — auto-refresh queue snapshot (e.g. `next_refresh_at`, credential metadata). |
+| **Internals** | Redis usage queue: `PeekAll()` (read without dequeue). New/extended handlers: usage aggregation, auth refresh queue. |
+
+**Paired web UI (React):** **[fxzer/cliproxyapi-management](https://github.com/fxzer/cliproxyapi-management)** (`https://github.com/fxzer/cliproxyapi-management.git`) — monitoring center, credential center, Chart.js usage views, and shared usage/auth-queue clients. Build outputs `management.html` / static bundle for the same Management API host (see that repo’s README → **「配对后端」** section).
+
 ## Sponsor
 
 [![https://www.packyapi.com/register?aff=cliproxyapi](./assets/packycode-en.png)](https://www.packyapi.com/register?aff=cliproxyapi)

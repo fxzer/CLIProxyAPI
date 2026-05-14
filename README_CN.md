@@ -8,6 +8,18 @@
 
 您可以使用本地或多账户的CLI方式，通过任何与 OpenAI（包括Responses）/Gemini/Claude 兼容的客户端和SDK进行访问。
 
+## fxzer fork：管理 API 扩展说明
+
+本说明对应 **[fxzer/CLIProxyAPI](https://github.com/fxzer/CLIProxyAPI)** 分支中与**配套管理前端**相关的后端改动摘要：
+
+| 类别 | 内容 |
+|------|------|
+| **Management API** | `GET /v0/management/usage`：按时间窗聚合用量（查询参数 `start` / `end`，ISO 8601）。 |
+| | `GET /v0/management/auth-refresh-queue`：认证自动刷新队列快照（如 `next_refresh_at`、凭证元数据等）。 |
+| **实现要点** | Redis 用量队列增加 `PeekAll()`（只读、不弹出）；新增/扩展 handler：用量聚合、刷新队列。 |
+
+**配套管理前端（React）：** **[fxzer/cliproxyapi-management](https://github.com/fxzer/cliproxyapi-management)**（`https://github.com/fxzer/cliproxyapi-management.git`）— 监控中心、凭证中心、Chart.js 用量视图及对应 API 客户端。构建产物为 `management.html` / 静态资源，与同一 Management API 主机一并部署（详见该仓库 README **「配对后端」** 一节）。
+
 ## 赞助商
 
 [![https://www.packyapi.com/register?aff=cliproxyapi](./assets/packycode-cn.png)](https://www.packyapi.com/register?aff=cliproxyapi)
