@@ -121,6 +121,27 @@ func (q *queue) popOldest(count int) [][]byte {
 	return out
 }
 
+// PeekAll returns all queued items without removing them from the queue.
+func PeekAll() [][]byte {
+	now := time.Now()
+
+	global.mu.Lock()
+	defer global.mu.Unlock()
+
+	global.pruneLocked(now)
+	available := len(global.items) - global.head
+	if available <= 0 {
+		return nil
+	}
+
+	out := make([][]byte, 0, available)
+	for i := 0; i < available; i++ {
+		item := global.items[global.head+i]
+		out = append(out, item.payload)
+	}
+	return out
+}
+
 func (q *queue) pruneLocked(now time.Time) {
 	if q.head >= len(q.items) {
 		q.items = nil
